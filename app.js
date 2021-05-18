@@ -8,7 +8,9 @@ const fs = require("fs");
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const mysql = require('mysql2');
-const { JSDOM } = require('jsdom');
+const {
+    JSDOM
+} = require('jsdom');
 const session = require('express-session');
 
 app.use('/css', express.static('private/css'));
@@ -34,24 +36,20 @@ app.get('/', function (req, res) {
 
     initDB();
 
-res.set('Server', '50Greener Engine');
-res.set('X-Powered-By', '50Greener');
-res.send(dom.serialize());
-
 });
 
 async function initDB() {
 
-const mysql = require('mysql2/promise');
+    const mysql = require('mysql2/promise');
 
-const connection = await mysql.createConnection({
-host: 'localhost',
-user: 'root',
-password: '',
-multipleStatements: true
-});
+    const connection = await mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        multipleStatements: true
+    });
 
-const createDBAndTables = `CREATE DATABASE IF NOT EXISTS accounts;
+    const createDBAndTables = `CREATE DATABASE IF NOT EXISTS accounts;
   use accounts;
   CREATE TABLE IF NOT EXISTS user (
   ID int NOT NULL AUTO_INCREMENT,
@@ -59,41 +57,40 @@ const createDBAndTables = `CREATE DATABASE IF NOT EXISTS accounts;
   password varchar(30),
   PRIMARY KEY (ID));`;
 
-await connection.query(createDBAndTables);
-let results = await connection.query("SELECT COUNT(*) FROM user");
-let count = results[0][0]['COUNT(*)'];
+    await connection.query(createDBAndTables);
+    let results = await connection.query("SELECT COUNT(*) FROM user");
+    let count = results[0][0]['COUNT(*)'];
 
-if(count < 1) {
-  results = await connection.query("INSERT INTO user (name, password) values ('50Green', 'admin')");
-  console.log("Added one user record.");
-}
-connection.end();
+    if (count < 1) {
+        results = await connection.query("INSERT INTO user (name, password) values ('50Green', 'admin')");
+        console.log("Added one user record.");
+    }
+    connection.end();
 }
 
 app.use(session({
-  secret:'super secret password',
-  name:'50Greener',
-  resave: false,
-  saveUninitialized: true 
-})
-);
+    secret: 'super secret password',
+    name: '50Greener',
+    resave: false,
+    saveUninitialized: true
+}));
 
 
 
 
-app.get('/main', function(req, res) {
+app.get('/main', function (req, res) {
 
-if(req.session.loggedIn) {
+    if (req.session.loggedIn) {
 
-  let mainFile = fs.readFileSync('./private/html/main.html', "utf8");
-  let mainDOM = new JSDOM(mainFile);
-  let $main = require("jquery")(mainDOM.window);
+        let mainFile = fs.readFileSync('./private/html/main.html', "utf8");
+        let mainDOM = new JSDOM(mainFile);
+        let $main = require("jquery")(mainDOM.window);
 
-  $main("#name").html(req.session.name);
+        $main("#name").html(req.session.name);
 
-} else {
-  res.redirect('/');
-}
+    } else {
+        res.redirect('/');
+    }
 
 
 });
