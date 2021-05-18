@@ -5,6 +5,8 @@ const morgan = require('morgan');
 const path = require('path');
 const rfs = require('rotating-file-stream');
 const fs = require("fs");
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
 
 const accessLogStream = rfs.createStream('access.log', {
