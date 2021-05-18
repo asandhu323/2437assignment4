@@ -33,7 +33,7 @@ body {
     border-radius: 1em;
     backdrop-filter: blur(3px);
     padding: 2.5em;
-    text-align: center;
+    text-align: left;
     margin: 0 auto;
     display: inline-block;
     width : 50vw;
@@ -45,6 +45,18 @@ body {
     padding: 10px 20px;
     border-radius: 7px;
     background-color: rgb(41, 112, 22);
+    color: antiquewhite;
+    border: 0;
+    box-shadow: 2px 2px 5px black;
+    margin: 0 auto;
+  }
+
+  #leave {
+    display: block;
+    margin: 0 auto 0 10px;
+    padding: 10px 20px;
+    border-radius: 7px;
+    background-color: firebrick;
     color: antiquewhite;
     border: 0;
     box-shadow: 2px 2px 5px black;
