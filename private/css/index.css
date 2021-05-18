@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap');
+
+body {
+  background-image: url(../img/leaf.jpg);
+  background-repeat: repeat;
+  font-family: 'Ubuntu', sans-serif;
+  color: antiquewhite;
+  text-shadow: 2px 2px 2px black;
+}
+
+#login-container {
+  background-color: rgba(29, 77, 16, 0.48);
+  box-shadow: 0 0 25px rgba(0,0,0,0.1), 0 5px 10px -3px rgba(0,0,0,0.13);
+  border-radius: 1em;
+  backdrop-filter: blur(3px);
+  padding: 2em;
+  text-align: center;
+  width: 70%;
+  margin: 0 auto;
+}
+
+h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-weight: 700;
+}
+
+#errorMsg {
+  color: firebrick;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(29, 77, 16, 0.48);
+  box-shadow: 0 0 25px rgba(0,0,0,0.1), 0 5px 10px -3px rgba(0,0,0,0.13);
+  backdrop-filter: blur(3px);
+  width: 100%;
+}
+
+#authors {
+  margin: 0 auto;
+}
+
+td {
+  padding-right: 1%;
+}
+
+#submit {
+  display: block;
+  margin: 0 auto 0 10px;
+  padding: 10px 20px;
+  border-radius: 7px;
+  background-color: rgb(41, 112, 22);
+  color: antiquewhite;
+  border: 0;
+  box-shadow: 2px 2px 5px black;
+  margin: 0 auto;
+}
