@@ -25,7 +25,7 @@ app.use(morgan(':referrer :url :user-agent', {
 
 
 app.get('/', function (req, res) {
-    let doc = fs.readFileSync('./private/html/index.html', "utf8");
+    let doc = fs.readFileSync('/private/html/index.html', "utf8");
 
 
     res.set('Server', 'Wazubi Engine');
@@ -107,21 +107,16 @@ app.use(express.urlencoded({
 app.post('/authenticate', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
 
-    let results = authenticate(req.body.email, req.body.password,
-        function (rows) {
-            if (rows == null) {
-                res.send({
-                    status: "fail",
-                    msg: "User account not found."
-                });
+    let results = authenticate(req.body.name, req.body.password,
+        function(rows) {
+            if(rows == null) {
+                res.send({ status: "fail", msg: "User account not found." });
             } else {
                 req.session.loggedIn = true;
-                req.session.email = rows.email;
-                req.session.save(function (err) {})
-                res.send({
-                    status: "success",
-                    msg: "Logged in."
-                });
+                req.session.name = rows.name;
+                req.session.save(function(err) {
+                })
+                res.send({ status: "success", msg: "Logged in." });
             }
         });
 
@@ -138,11 +133,11 @@ function authenticate(name, pwd, callback) {
     });
 
     connection.query(
-        "SELECT * FROM user WHERE email = ? AND password = ?", [email, pwd],
-        function (error, results) {
-            if (error) {
-                throw error;
-            }
+      "SELECT * FROM user WHERE name = ? AND password = ?", [name, pwd],
+      function (error, results) {
+        if (error) {
+            throw error;
+        }
 
             if (results.length > 0) {
                 return callback(results[0]);
