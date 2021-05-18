@@ -96,7 +96,7 @@ $(function () {
                 type: "POST",
                 dataType: "JSON",
                 data: {
-                    user: $("#user").val(),
+                    name: $("#user").val(),
                     password: $("#password").val()
                 },
                 success: function (data) {
