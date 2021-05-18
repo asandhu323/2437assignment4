@@ -19,7 +19,7 @@ app.use(morgan(':referrer :url :user-agent',
 
 
 app.get('/', function (req, res) {
-    let doc = fs.readFileSync('./index.html', "utf8");
+    let doc = fs.readFileSync('html/index.html', "utf8");
 
 
     res.set('Server', 'Wazubi Engine');
