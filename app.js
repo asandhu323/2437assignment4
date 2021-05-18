@@ -10,16 +10,17 @@ const io = require('socket.io')(server);
 
 
 const accessLogStream = rfs.createStream('access.log', {
-  interval: '1d', // rotate daily
-  path: path.join(__dirname, 'log')
+    interval: '1d', // rotate daily
+    path: path.join(__dirname, 'log')
 });
 
-app.use(morgan(':referrer :url :user-agent',
-               { stream: accessLogStream }));
+app.use(morgan(':referrer :url :user-agent', {
+    stream: accessLogStream
+}));
 
 
 app.get('/', function (req, res) {
-    let doc = fs.readFileSync('./index.html', "utf8");
+    let doc = fs.readFileSync('/private/html/index.html', "utf8");
 
 
     res.set('Server', 'Wazubi Engine');
@@ -30,23 +31,30 @@ app.get('/', function (req, res) {
 
 // No longer need body-parser!
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({
+    extended: true
+}))
 
-app.post('/authenticate', function(req, res) {
+app.post('/authenticate', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
 
     let results = authenticate(req.body.email, req.body.password,
-        function(rows) {
-            if(rows == null) {
-                res.send({ status: "fail", msg: "User account not found." });
+        function (rows) {
+            if (rows == null) {
+                res.send({
+                    status: "fail",
+                    msg: "User account not found."
+                });
             } else {
                 req.session.loggedIn = true;
                 req.session.email = rows.email;
-                req.session.save(function(err) {
-                })
-                res.send({ status: "success", msg: "Logged in." });
+                req.session.save(function (err) {})
+                res.send({
+                    status: "success",
+                    msg: "Logged in."
+                });
             }
-    });
+        });
 
 });
 
@@ -54,32 +62,32 @@ app.post('/authenticate', function(req, res) {
 function authenticate(email, pwd, callback) {
 
     const connection = mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: '',
-      database: 'accounts'
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'accounts'
     });
 
     connection.query(
-      "SELECT * FROM user WHERE email = ? AND password = ?", [email, pwd],
-      function (error, results) {
-        if (error) {
-            throw error;
-        }
+        "SELECT * FROM user WHERE email = ? AND password = ?", [email, pwd],
+        function (error, results) {
+            if (error) {
+                throw error;
+            }
 
-        if(results.length > 0) {
-            return callback(results[0]);
-        } else {
-            return callback(null);
-        }
+            if (results.length > 0) {
+                return callback(results[0]);
+            } else {
+                return callback(null);
+            }
 
-    });
+        });
 
 }
 
-app.get('/logout', function(req,res){
-    req.session.destroy(function(error){
-        if(error) {
+app.get('/logout', function (req, res) {
+    req.session.destroy(function (error) {
+        if (error) {
             console.log(error);
         }
     });
@@ -88,37 +96,49 @@ app.get('/logout', function(req,res){
 
 var userCount = 0;
 
-io.on('connect', function(socket) {
+io.on('connect', function (socket) {
     userCount++;
     let str = "anonymous";
     socket.userName = str;
-    io.emit('user_joined', { user: socket.userName, numOfUsers: userCount });
+    io.emit('user_joined', {
+        user: socket.userName,
+        numOfUsers: userCount
+    });
     console.log('Connected users:', userCount);
 
-    socket.on('disconnect', function(data) {
+    socket.on('disconnect', function (data) {
         userCount--;
-        io.emit('user_left', { user: socket.userName, numOfUsers: userCount });
+        io.emit('user_left', {
+            user: socket.userName,
+            numOfUsers: userCount
+        });
 
         console.log('Connected users:', userCount);
     });
 
-    socket.on('chatting', function(data) {
+    socket.on('chatting', function (data) {
 
         console.log('User', data.name, 'Message', data.message);
 
         // if you don't want to send to the sender
         //socket.broadcast.emit({user: data.name, text: data.message});
 
-        if(socket.userName == "anonymous") {
+        if (socket.userName == "anonymous") {
 
 
-            io.emit("chatting", {user: data.name, text: data.message,
-                event: socket.userName + " is now known as " + data.name});
+            io.emit("chatting", {
+                user: data.name,
+                text: data.message,
+                event: socket.userName + " is now known as " + data.name
+            });
             socket.userName = data.name;
 
         } else {
 
-            io.emit("chatting", {user: socket.userName, text: data.message});
+            io.emit("chatting", {
+                user: socket.userName,
+                text: data.message
+            });
 
         }
 
