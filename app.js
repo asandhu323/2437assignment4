@@ -8,14 +8,11 @@ const fs = require("fs");
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const mysql = require('mysql2');
-const {
-    JSDOM
-} = require('jsdom');
+const { JSDOM } = require('jsdom');
 const session = require('express-session');
 
 app.use('/css', express.static('private/css'));
 app.use('/html', express.static('private/html'));
-app.use('/js', express.static('private/js'));
 
 const accessLogStream = rfs.createStream('access.log', {
     interval: '1d', // rotate daily
@@ -41,16 +38,16 @@ app.get('/', function (req, res) {
 
 async function initDB() {
 
-    const mysql = require('mysql2/promise');
+const mysql = require('mysql2/promise');
 
-    const connection = await mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: '',
-        multipleStatements: true
-    });
+const connection = await mysql.createConnection({
+host: 'localhost',
+user: 'root',
+password: '',
+multipleStatements: true
+});
 
-    const createDBAndTables = `CREATE DATABASE IF NOT EXISTS accounts;
+const createDBAndTables = `CREATE DATABASE IF NOT EXISTS accounts;
   use accounts;
   CREATE TABLE IF NOT EXISTS user (
   ID int NOT NULL AUTO_INCREMENT,
@@ -58,42 +55,41 @@ async function initDB() {
   password varchar(30),
   PRIMARY KEY (ID));`;
 
-    await connection.query(createDBAndTables);
-    let results = await connection.query("SELECT COUNT(*) FROM user");
-    let count = results[0][0]['COUNT(*)'];
+await connection.query(createDBAndTables);
+let results = await connection.query("SELECT COUNT(*) FROM user");
+let count = results[0][0]['COUNT(*)'];
 
-    if (count < 1) {
-        results = await connection.query("INSERT INTO user (name, password) values ('50Green', 'admin')");
-        console.log("Added one user record.");
-    }
-    connection.end();
+if(count < 1) {
+  results = await connection.query("INSERT INTO user (name, password) values ('50Green', 'admin')");
+  console.log("Added one user record.");
+}
+connection.end();
 }
 
 app.use(session({
-    secret: 'super secret password',
-    name: '50Greener',
-    resave: false,
-    saveUninitialized: true
-}));
+  secret:'super secret password',
+  name:'50Greener',
+  resave: false,
+  saveUninitialized: true 
+})
+);
 
 
 
 
-app.get('/main', function (req, res) {
+app.get('/main', function(req, res) {
 
-    if (req.session.loggedIn) {
+if(req.session.loggedIn) {
 
-        let mainFile = fs.readFileSync('./private/html/main.html', "utf8");
-        let mainDOM = new JSDOM(mainFile);
-        let $main = require("jquery")(mainDOM.window);
+  let mainFile = fs.readFileSync('./private/html/main.html', "utf8");
+  let mainDOM = new JSDOM(mainFile);
+  let $main = require("jquery")(mainDOM.window);
 
-        $main("#name").html(req.session.name);
+  $main("#name").html(req.session.name);
 
-        res.send(mainDOM.serialize());
-
-    } else {
-        res.redirect('/');
-    }
+} else {
+  res.redirect('/');
+}
 
 
 });
@@ -107,7 +103,7 @@ app.use(express.urlencoded({
 app.post('/authenticate', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
 
-    let results = authenticate(req.body.name, req.body.password,
+    let results = authenticate(req.body.email, req.body.password,
         function (rows) {
             if (rows == null) {
                 res.send({
@@ -116,8 +112,8 @@ app.post('/authenticate', function (req, res) {
                 });
             } else {
                 req.session.loggedIn = true;
-                req.session.name = rows.name;
-                req.session.save(function (err) { })
+                req.session.email = rows.email;
+                req.session.save(function (err) {})
                 res.send({
                     status: "success",
                     msg: "Logged in."
@@ -138,7 +134,7 @@ function authenticate(name, pwd, callback) {
     });
 
     connection.query(
-        "SELECT * FROM user WHERE name = ? AND password = ?", [name, pwd],
+        "SELECT * FROM user WHERE email = ? AND password = ?", [email, pwd],
         function (error, results) {
             if (error) {
                 throw error;
