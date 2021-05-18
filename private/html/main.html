@@ -90,7 +90,7 @@
 
 
             $("#send").on('click', function () {
-                let name = $("#name").val();
+                let name = document.getElementById("name").innerText;
                 let text = $("#msg").val();
                 // check if the name is blank, shouldn't be
                 if (name == null || name === "") {
