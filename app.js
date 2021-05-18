@@ -88,6 +88,8 @@ if(req.session.loggedIn) {
 
   $main("#name").html(req.session.name);
 
+  res.send(mainDOM.serialize());
+
 } else {
   res.redirect('/');
 }

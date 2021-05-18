@@ -95,7 +95,6 @@ $(function () {
     // });
 
     $("#submit").on('click', function () {
-        console.log($("#password").val());
         $.ajax({
             url: "/authenticate",
             type: "POST",
