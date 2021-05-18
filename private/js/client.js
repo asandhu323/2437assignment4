@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(function () {
     "use strict";
 
     /* This happens when the document is loaded. We start off with http://localhost:8000
@@ -68,7 +68,7 @@ $(document).ready(function () {
     });
 
 
-    $("#send").click(function () {
+    $("#send").on('click', function () {
 
         let name = $("#name").val();
         let text = $("#msg").val();
@@ -90,7 +90,7 @@ $(document).ready(function () {
 
 
 
-        $("#submit").click(function () {
+        $("#submit").on('click', function () {
             $.ajax({
                 url: "/authenticate",
                 type: "POST",
