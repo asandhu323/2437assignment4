@@ -4,7 +4,6 @@ body {
     font-family: 'Ubuntu', sans-serif;
     color: antiquewhite;
     text-shadow: 2px 2px 2px black;
-    text-align: center;
   }
 
   #chat_form {
@@ -15,7 +14,7 @@ body {
     padding: 2.5em;
     text-align: center;
     margin: 0 auto;
-    display: inline-block;
+    width: 80vw;
   }
 
   #name {
@@ -23,7 +22,7 @@ body {
   }
 
   #msg {
-      width: 70git vw;
+      width: 80vw;
       height: 10vh;
   }
 
@@ -34,8 +33,7 @@ body {
     backdrop-filter: blur(3px);
     padding: 2.5em;
     margin: 0 auto;
-    display: inline-block;
-    width : 70vw;
+    width : 80vw;
   }
 
   #send {
