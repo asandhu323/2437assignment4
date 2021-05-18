@@ -6,6 +6,7 @@ body {
   font-family: 'Ubuntu', sans-serif;
   color: antiquewhite;
   text-shadow: 2px 2px 2px black;
+  text-align: center;
 }
 
 #login-container {
@@ -13,10 +14,10 @@ body {
   box-shadow: 0 0 25px rgba(0,0,0,0.1), 0 5px 10px -3px rgba(0,0,0,0.13);
   border-radius: 1em;
   backdrop-filter: blur(3px);
-  padding: 2em;
+  padding: 2.5em;
   text-align: center;
-  width: 70%;
   margin: 0 auto;
+  display: inline-block;
 }
 
 h3 {
