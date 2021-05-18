@@ -7,6 +7,9 @@ const rfs = require('rotating-file-stream');
 const fs = require("fs");
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+const mysql = require('mysql2');
+const { JSDOM } = require('jsdom');
+const session = require('express-session');
 
 app.use('/css', express.static('private/css'));
 app.use('/html', express.static('private/html'));
@@ -29,6 +32,70 @@ app.get('/', function (req, res) {
     res.set('X-Powered-By', 'Wazubi');
     res.send(doc);
 
+    initDB();
+
+res.set('Server', '50Greener Engine');
+res.set('X-Powered-By', '50Greener');
+res.send(dom.serialize());
+
+});
+
+async function initDB() {
+
+const mysql = require('mysql2/promise');
+
+const connection = await mysql.createConnection({
+host: 'localhost',
+user: 'root',
+password: '',
+multipleStatements: true
+});
+
+const createDBAndTables = `CREATE DATABASE IF NOT EXISTS accounts;
+  use accounts;
+  CREATE TABLE IF NOT EXISTS user (
+  ID int NOT NULL AUTO_INCREMENT,
+  name varchar(30),
+  password varchar(30),
+  PRIMARY KEY (ID));`;
+
+await connection.query(createDBAndTables);
+let results = await connection.query("SELECT COUNT(*) FROM user");
+let count = results[0][0]['COUNT(*)'];
+
+if(count < 1) {
+  results = await connection.query("INSERT INTO user (name, password) values ('50Green', 'admin')");
+  console.log("Added one user record.");
+}
+connection.end();
+}
+
+app.use(session({
+  secret:'super secret password',
+  name:'50Greener',
+  resave: false,
+  saveUninitialized: true 
+})
+);
+
+
+
+
+app.get('/main', function(req, res) {
+
+if(req.session.loggedIn) {
+
+  let mainFile = fs.readFileSync('./private/html/main.html', "utf8");
+  let mainDOM = new JSDOM(mainFile);
+  let $main = require("jquery")(mainDOM.window);
+
+  $main("#name").html(req.session.name);
+
+} else {
+  res.redirect('/');
+}
+
+
 });
 
 // No longer need body-parser!
@@ -40,6 +107,18 @@ app.use(express.urlencoded({
 app.post('/authenticate', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
 
+<<<<<<< HEAD
+    let results = authenticate(req.body.name, req.body.password,
+        function(rows) {
+            if(rows == null) {
+                res.send({ status: "fail", msg: "User account not found." });
+            } else {
+                req.session.loggedIn = true;
+                req.session.name = rows.name;
+                req.session.save(function(err) {
+                })
+                res.send({ status: "success", msg: "Logged in." });
+=======
     let results = authenticate(req.body.email, req.body.password,
         function (rows) {
             if (rows == null) {
@@ -55,13 +134,14 @@ app.post('/authenticate', function (req, res) {
                     status: "success",
                     msg: "Logged in."
                 });
+>>>>>>> 1a98c94cd1d50764b98f254e7665e687e9057f45
             }
         });
 
 });
 
 
-function authenticate(email, pwd, callback) {
+function authenticate(name, pwd, callback) {
 
     const connection = mysql.createConnection({
         host: 'localhost',
@@ -71,11 +151,19 @@ function authenticate(email, pwd, callback) {
     });
 
     connection.query(
+<<<<<<< HEAD
+      "SELECT * FROM user WHERE name = ? AND password = ?", [name, pwd],
+      function (error, results) {
+        if (error) {
+            throw error;
+        }
+=======
         "SELECT * FROM user WHERE email = ? AND password = ?", [email, pwd],
         function (error, results) {
             if (error) {
                 throw error;
             }
+>>>>>>> 1a98c94cd1d50764b98f254e7665e687e9057f45
 
             if (results.length > 0) {
                 return callback(results[0]);

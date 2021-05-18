@@ -96,12 +96,12 @@ $(function () {
                 type: "POST",
                 dataType: "JSON",
                 data: {
-                    email: $("#email").val(),
+                    user: $("#user").val(),
                     password: $("#password").val()
                 },
                 success: function (data) {
                     if (data['status'] == "success") {
-                        window.location.replace("/profile");
+                        window.location.replace("/main");
                     } else {
                         $("#errorMsg").html(data['msg']);
                     }
