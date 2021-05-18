@@ -25,11 +25,7 @@ app.use(morgan(':referrer :url :user-agent', {
 
 
 app.get('/', function (req, res) {
-<<<<<<< HEAD
     let doc = fs.readFileSync('/private/html/index.html', "utf8");
-=======
-    let doc = fs.readFileSync('./private/html/index.html', "utf8");
->>>>>>> a70c7c9173dd94ad061b24fa013c8304e6feaafc
 
 
     res.set('Server', 'Wazubi Engine');
@@ -111,7 +107,6 @@ app.use(express.urlencoded({
 app.post('/authenticate', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
 
-<<<<<<< HEAD
     let results = authenticate(req.body.name, req.body.password,
         function(rows) {
             if(rows == null) {
@@ -122,23 +117,6 @@ app.post('/authenticate', function (req, res) {
                 req.session.save(function(err) {
                 })
                 res.send({ status: "success", msg: "Logged in." });
-=======
-    let results = authenticate(req.body.email, req.body.password,
-        function (rows) {
-            if (rows == null) {
-                res.send({
-                    status: "fail",
-                    msg: "User account not found."
-                });
-            } else {
-                req.session.loggedIn = true;
-                req.session.email = rows.email;
-                req.session.save(function (err) {})
-                res.send({
-                    status: "success",
-                    msg: "Logged in."
-                });
->>>>>>> 1a98c94cd1d50764b98f254e7665e687e9057f45
             }
         });
 
@@ -155,19 +133,11 @@ function authenticate(name, pwd, callback) {
     });
 
     connection.query(
-<<<<<<< HEAD
       "SELECT * FROM user WHERE name = ? AND password = ?", [name, pwd],
       function (error, results) {
         if (error) {
             throw error;
         }
-=======
-        "SELECT * FROM user WHERE email = ? AND password = ?", [email, pwd],
-        function (error, results) {
-            if (error) {
-                throw error;
-            }
->>>>>>> 1a98c94cd1d50764b98f254e7665e687e9057f45
 
             if (results.length > 0) {
                 return callback(results[0]);
