@@ -14,6 +14,7 @@ const session = require('express-session');
 app.use('/css', express.static('private/css'));
 app.use('/html', express.static('private/html'));
 app.use('/js', express.static('private/js'));
+app.use('/img', express.static('private/img'));
 
 const accessLogStream = rfs.createStream('access.log', {
     interval: '1d', // rotate daily
