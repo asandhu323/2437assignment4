@@ -5,7 +5,7 @@ $(function () {
        And if the browser supports this, we get a new connection as wellat:
        ws://localhost:8000
      */
-    let socket = io.connect('/');
+    let socket = io.connect('/main');
 
     socket.on('user_joined', function (data) {
         let beginTag = "<p style='color: bisque;'>";
@@ -90,28 +90,30 @@ $(function () {
 
 
 
-        $("#submit").on('click', function () {
-            $.ajax({
-                url: "/authenticate",
-                type: "POST",
-                dataType: "JSON",
-                data: {
-                    name: $("#user").val(),
-                    password: $("#password").val()
-                },
-                success: function (data) {
-                    if (data['status'] == "success") {
-                        window.location.replace("/main");
-                    } else {
-                        $("#errorMsg").html(data['msg']);
-                    }
+        
 
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    $("#errorMsg").text(jqXHR.statusText);
+    });
+
+    $("#submit").on('click', function () {
+        $.ajax({
+            url: "/authenticate",
+            type: "POST",
+            dataType: "JSON",
+            data: {
+                name: $("#name").val(),
+                password: $("#password").val()
+            },
+            success: function (data) {
+                if (data['status'] == "success") {
+                    window.location.replace("/main");
+                } else {
+                    $("#errorMsg").html(data['msg']);
                 }
-            });
 
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $("#errorMsg").text(jqXHR.statusText);
+            }
         });
 
     });

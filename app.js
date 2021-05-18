@@ -117,7 +117,7 @@ app.post('/authenticate', function (req, res) {
             } else {
                 req.session.loggedIn = true;
                 req.session.name = rows.name;
-                req.session.save(function (err) {})
+                req.session.save(function (err) { })
                 res.send({
                     status: "success",
                     msg: "Logged in."
