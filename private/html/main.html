@@ -95,6 +95,8 @@
             $("#send").on('click', function () {
                 let name = document.getElementById("name").innerText;
                 let text = $("#msg").val();
+                text = text.replace(":)", "☺");
+                
                 // check if the name is blank, shouldn't be
                 if (name == null || name === "") {
                     $("#name").fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50);
