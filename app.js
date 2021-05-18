@@ -81,12 +81,7 @@ app.get('/logout', function(req,res){
             console.log(error);
         }
     });
-    res.redirect("/profile");
-})
-
-let port = 8000;
-app.listen(port, function () {
-    console.log('Listening on port ' + port + '!');
+    res.redirect("/");
 })
 
 
