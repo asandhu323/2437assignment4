@@ -113,7 +113,7 @@ app.post('/authenticate', function (req, res) {
                 });
             } else {
                 req.session.loggedIn = true;
-                req.session.email = rows.email;
+                req.session.name = rows.name;
                 req.session.save(function (err) {})
                 res.send({
                     status: "success",
