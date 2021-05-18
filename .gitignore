@@ -2,4 +2,4 @@
 package-lock.json
 package.json
 /log
-access.log
+/log/access.log
