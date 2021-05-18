@@ -104,7 +104,7 @@ app.use(express.urlencoded({
 app.post('/authenticate', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
 
-    let results = authenticate(req.body.email, req.body.password,
+    let results = authenticate(req.body.name, req.body.password,
         function (rows) {
             if (rows == null) {
                 res.send({
