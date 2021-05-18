@@ -13,6 +13,7 @@ const session = require('express-session');
 
 app.use('/css', express.static('private/css'));
 app.use('/html', express.static('private/html'));
+app.use('/js', express.static('private/js'));
 
 const accessLogStream = rfs.createStream('access.log', {
     interval: '1d', // rotate daily
@@ -130,11 +131,11 @@ function authenticate(name, pwd, callback) {
         host: 'localhost',
         user: 'root',
         password: '',
-        database: 'accounts'
+        database: 'accounts2537'
     });
 
     connection.query(
-        "SELECT * FROM user WHERE email = ? AND password = ?", [email, pwd],
+        "SELECT * FROM user WHERE name = ? AND password = ?", [name, pwd],
         function (error, results) {
             if (error) {
                 throw error;
