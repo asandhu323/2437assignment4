@@ -215,6 +215,6 @@ io.on('connect', function (socket) {
 
 // RUN SERVER
 let port = 8000;
-app.listen(port, function () {
+server.listen(port, function () {
     console.log('Listening on port ' + port + '.');
 });
