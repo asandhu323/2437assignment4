@@ -8,6 +8,8 @@ const fs = require("fs");
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
+app.use('/css', express.static('private/css'));
+app.use('/html', express.static('private/html'));
 
 const accessLogStream = rfs.createStream('access.log', {
   interval: '1d', // rotate daily
@@ -19,7 +21,7 @@ app.use(morgan(':referrer :url :user-agent',
 
 
 app.get('/', function (req, res) {
-    let doc = fs.readFileSync('html/index.html', "utf8");
+    let doc = fs.readFileSync('./private/html/index.html', "utf8");
 
 
     res.set('Server', 'Wazubi Engine');
