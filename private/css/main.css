@@ -23,7 +23,7 @@ body {
   }
 
   #msg {
-      width: 70vw;
+      width: 70git vw;
       height: 10vh;
   }
 
@@ -33,7 +33,6 @@ body {
     border-radius: 1em;
     backdrop-filter: blur(3px);
     padding: 2.5em;
-    text-align: left;
     margin: 0 auto;
     display: inline-block;
     width : 70vw;
