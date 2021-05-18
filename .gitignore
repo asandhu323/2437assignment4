@@ -2,5 +2,8 @@
 package-lock.json
 package.json
 /log
+<<<<<<< HEAD
 *.log
+=======
+>>>>>>> c0dcdedca0d4c8148b260a643037525e48a9798f
 /log/access.log
