@@ -15,6 +15,7 @@ const session = require('express-session');
 
 app.use('/css', express.static('private/css'));
 app.use('/html', express.static('private/html'));
+app.use('/js', express.static('private/js'));
 
 const accessLogStream = rfs.createStream('access.log', {
     interval: '1d', // rotate daily
@@ -87,6 +88,8 @@ app.get('/main', function (req, res) {
         let $main = require("jquery")(mainDOM.window);
 
         $main("#name").html(req.session.name);
+
+        res.send(mainDOM.serialize());
 
     } else {
         res.redirect('/');
