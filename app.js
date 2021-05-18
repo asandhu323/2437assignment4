@@ -47,8 +47,8 @@ password: '',
 multipleStatements: true
 });
 
-const createDBAndTables = `CREATE DATABASE IF NOT EXISTS accounts;
-  use accounts;
+const createDBAndTables = `CREATE DATABASE IF NOT EXISTS accounts2537;
+  use accounts2537;
   CREATE TABLE IF NOT EXISTS user (
   ID int NOT NULL AUTO_INCREMENT,
   name varchar(30),
