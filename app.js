@@ -61,8 +61,14 @@ async function initDB() {
     let results = await connection.query("SELECT COUNT(*) FROM user");
     let count = results[0][0]['COUNT(*)'];
 
-    if (count < 1) {
-        results = await connection.query("INSERT INTO user (name, password) values ('50Green', 'admin')");
+    if (count < 10) {
+        results = await connection.query("INSERT INTO user (name, password) values ('50green', 'admin')");
+        console.log("Added one user record.");
+        results = await connection.query("INSERT INTO user (name, password) values ('test', 'admin')");
+        console.log("Added one user record.");
+        results = await connection.query("INSERT INTO user (name, password) values ('test1', 'admin')");
+        console.log("Added one user record.");
+        results = await connection.query("INSERT INTO user (name, password) values ('test2', 'admin')");
         console.log("Added one user record.");
     }
     connection.end();
@@ -84,6 +90,7 @@ app.get('/main', function (req, res) {
         let $main = require("jquery")(mainDOM.window);
 
         $main("#name").html(req.session.name);
+        console.log(req.session.name);
 
         res.send(mainDOM.serialize());
 

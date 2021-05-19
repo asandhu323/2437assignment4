@@ -1,63 +1,67 @@
 body {
-    background-image: url(../img/leaf.jpg);
-    background-repeat: repeat;
-    font-family: 'Ubuntu', sans-serif;
-    color: antiquewhite;
-    text-shadow: 2px 2px 2px black;
-    text-align: center;
-  }
+  background-image: url(../img/leaf.jpg);
+  background-repeat: repeat;
+  font-family: 'Ubuntu', sans-serif;
+  color: antiquewhite;
+  text-shadow: 2px 2px 2px black;
+  text-align: center;
+}
 
-  #chat_form {
-    background-color: rgba(29, 77, 16, 0.48);
-    box-shadow: 0 0 25px rgba(0,0,0,0.1), 0 5px 10px -3px rgba(0,0,0,0.13);
-    border-radius: 1em;
-    backdrop-filter: blur(3px);
-    padding: 2.5em;
-    text-align: center;
-    margin: 0 auto;
-    display: inline-block;
-  }
+#chat_form {
+  background-color: rgba(29, 77, 16, 0.75);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1), 0 5px 10px -3px rgba(0, 0, 0, 0.13);
+  border-radius: 1em;
+  backdrop-filter: blur(3px);
+  padding: 2.5em;
+  text-align: center;
+  margin: 0 auto;
+  display: inline-block;
+}
 
-  #name {
-      display: block;
-  }
+#name {
+  display: block;
+}
 
-  #msg {
-      width: 70git vw;
-      height: 10vh;
-  }
+#msg {
+  width: 70git vw;
+  height: 10vh;
+}
 
-  #chat_content {
-    background-color: rgba(29, 77, 16, 0.48);
-    box-shadow: 0 0 25px rgba(0,0,0,0.1), 0 5px 10px -3px rgba(0,0,0,0.13);
-    border-radius: 1em;
-    backdrop-filter: blur(3px);
-    padding: 2.5em;
-    margin: 0 auto;
-    display: inline-block;
-    width : 70vw;
-  }
+#chat_content {
+  background-color: rgba(29, 77, 16, 0.75);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1), 0 5px 10px -3px rgba(0, 0, 0, 0.13);
+  border-radius: 1em;
+  backdrop-filter: blur(3px);
+  text-align: left;
+  padding: 2.5em;
+  margin: 0 auto;
+  display: inline-block;
+  width: 70vw;
+  color: lightskyblue;
+  max-height: 250px;
+  overflow-y: scroll;
+}
 
-  #send {
-    display: block;
-    margin: 0 auto 0 10px;
-    padding: 10px 20px;
-    border-radius: 7px;
-    background-color: rgb(41, 112, 22);
-    color: antiquewhite;
-    border: 0;
-    box-shadow: 2px 2px 5px black;
-    margin: 0 auto;
-  }
+#send {
+  display: block;
+  margin: 0 auto 0 10px;
+  padding: 10px 20px;
+  border-radius: 7px;
+  background-color: rgb(41, 112, 22);
+  color: antiquewhite;
+  border: 0;
+  box-shadow: 2px 2px 5px black;
+  margin: 0 auto;
+}
 
-  #leave {
-    display: block;
-    margin: 0 auto 0 10px;
-    padding: 10px 20px;
-    border-radius: 7px;
-    background-color: firebrick;
-    color: antiquewhite;
-    border: 0;
-    box-shadow: 2px 2px 5px black;
-    margin: 0 auto;
-  }
+#leave {
+  display: block;
+  margin: 0 auto 0 10px;
+  padding: 10px 20px;
+  border-radius: 7px;
+  background-color: firebrick;
+  color: antiquewhite;
+  border: 0;
+  box-shadow: 2px 2px 5px black;
+  margin: 0 auto;
+}

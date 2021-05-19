@@ -1,141 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assignment 4 - Chat</title>
-    <link rel="stylesheet" href="/css/main.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Assignment 4 - Chat</title>
+        <link rel="stylesheet" href="/css/main.css">
+    </head>
 
-<body>
+    <body>
 
-    <div id="content">
-        <form action="/logout" method="get">
-            <input id="leave" type="submit" value="Leave chat"/>
-        </form>
+        <div id="content">
+            <form action="/logout" method="get">
+                <input id="leave" type="submit" value="Leave chat" />
+            </form>
 
-    <form id="chat_form">
-      <span id="name"></span>
-      <textarea id="msg" placeholder="Your message here"></textarea>
-      <input type="button" id="send" value="Send"/>
-    </form>
-  </div>
-  <p>&nbsp;</p>
-  <div id="chat_content"></div>
-<!--    <footer id="footer"></footer>-->
+            <form id="chat_form">
+                <span id="name"></span>
+                <textarea id="msg" placeholder="Your message here"></textarea>
+                <input type="button" id="send" value="Send" />
+            </form>
+        </div>
+        <p>&nbsp;</p>
+        <div id="chat_content"></div>
+        <!--    <footer id="footer"></footer>-->
 
-    <script src="http://localhost:8000/socket.io/socket.io.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    
-    <script>
-        $(function () {
-            "use strict";
+        <script src="http://localhost:8000/socket.io/socket.io.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-            /* This happens when the document is loaded. We start off with http://localhost:8000
-            And if the browser supports this, we get a new connection as wellat:
-            ws://localhost:8000
-            */
-            let socket = io.connect('/');
+        <script>
+            $(function () {
+                "use strict";
 
-            socket.on('user_joined', function (data) {
-                let beginTag = "<p style='color: bisque;'>";
-                let numOfUsers = data.numOfUsers;
-                let userStr = "";
-                if (numOfUsers == 1) {
-                    userStr = "user";
-                } else {
-                    userStr = "users";
-                }
-                if (numOfUsers < 2) {
+                /* This happens when the document is loaded. We start off with http://localhost:8000
+                And if the browser supports this, we get a new connection as wellat:
+                ws://localhost:8000
+                */
+                let socket = io.connect('/');
 
-                    $("#chat_content").append("<p>Just you, no one else.</p>");
+                socket.on('user_joined', function (data) {
+                    let beginTag = "<p style='color: orange;'>";
+                    let numOfUsers = data.numOfUsers;
+                    let userStr = "";
+                    if (numOfUsers == 1) {
+                        userStr = "user";
+                    } else {
+                        userStr = "users";
+                    }
+                    if (numOfUsers < 2) {
 
-                } else {
+                        $("#chat_content").prepend("<p>Just you, no one else.</p>");
 
-                    $("#chat_content").append(beginTag + data.user +
-                        " connected. There are " + numOfUsers + " " + userStr + ".</p>");
-                }
-            });
+                    } else {
 
-            socket.on('user_left', function (data) {
-                let beginTag = "<p style='color: burlywood;'>";
-                let numOfUsers = data.numOfUsers;
-                let userStr = "";
-                if (numOfUsers == 1) {
-                    userStr = "user";
-                } else {
-                    userStr = "users";
-                }
-                if (numOfUsers < 2) {
-                    $("#chat_content").append("<p>" + data.user + " left. You are now all alone on this chat server <span style='font-size: 1.2em; color: blue;'>☹</span>.</p>");
-                } else {
-                    $("#chat_content").append(beginTag + data.user +
-                        " left. Now chatting with " + numOfUsers + " " + userStr + "</p>");
-                }
-            });
-
-            // this is from others - not our text
-            socket.on('chatting', function (data) {
-                //console.log(data);
-                let me = $("#name").val();
-                let beginTag = "<p>";
-                if (me == data.user) {
-                    beginTag = "<p style='color: darkblue;'>";
-                }
-                if (data.event) {
-                    $("#chat_content").append("<p style='color: orange;'>" + data.event + "</p>");
-                }
-                $("#chat_content").append(beginTag + data.user + " said: " + data.text + "</p>");
-
-            });
-
-
-            $("#send").on('click', function () {
-                let name = document.getElementById("name").innerText;
-                let text = $("#msg").val();
-                text = text.replace(":)", "☺");
-                
-                // check if the name is blank, shouldn't be
-                if (name == null || name === "") {
-                    $("#name").fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50);
-                    return;
-                }
-                if (text == null || text === "") {
-                    $("#msg").fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50);
-                    return;
-                }
-                socket.emit('chatting', {
-                    "name": name,
-                    message: text
-                });
-                $("#msg").val("");
-            });
-
-            $("#submit").on('click', function () {
-                $.ajax({
-                    url: "/authenticate",
-                    type: "POST",
-                    dataType: "JSON",
-                    data: {
-                        name: $("#name").val(),
-                        password: $("#password").val()
-                    },
-                    success: function (data) {
-                        if (data['status'] == "success") {
-                            window.location.replace("/main");
-                        } else {
-                            $("#errorMsg").html(data['msg']);
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        $("#errorMsg").text(jqXHR.statusText);
+                        $("#chat_content").prepend(beginTag + data.user +
+                            " connected. There are " + numOfUsers + " " + userStr + ".</p>");
                     }
                 });
+
+                socket.on('user_left', function (data) {
+                    let beginTag = "<p style='color: red;'><b>";
+                    let numOfUsers = data.numOfUsers;
+                    let userStr = "";
+                    if (numOfUsers == 1) {
+                        userStr = "user";
+                    } else {
+                        userStr = "users";
+                    }
+                    if (numOfUsers < 2) {
+                        $("#chat_content").prepend("<p>" + data.user +
+                            " left. You are now all alone on this chat server <span style='font-size: 1.2em; color: blue;'>☹</span>.</b></p>"
+                        );
+                    } else {
+                        $("#chat_content").prepend(beginTag + data.user +
+                            " left. Now chatting with " + numOfUsers + " " + userStr + "</p>");
+                    }
+                });
+
+                // this is from others - not our text
+                socket.on('chatting', function (data) {
+                    //console.log(data);
+                    let me = document.getElementById("name").innerText;
+                    let beginTag = "<p>";
+                    if (me == data.user) {
+                        beginTag = "<p style='color: yellow; text-align: right;'>";
+                    }
+                    if (data.event) {
+                        $("#chat_content").prepend("<p style='color: lightblue;'>" + data.event +
+                            "</p>");
+                    }
+                    $("#chat_content").prepend(beginTag + data.user + " said: " + data.text + "</p>");
+
+                });
+
+
+                $("#send").on('click', function () {
+                    let name = document.getElementById("name").innerText;
+                    let text = $("#msg").val();
+                    text = text.replace(":)", "☺");
+
+                    // check if the name is blank, shouldn't be
+                    if (name == null || name === "") {
+                        $("#name").fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50);
+                        return;
+                    }
+                    if (text == null || text === "") {
+                        $("#msg").fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50);
+                        return;
+                    }
+                    socket.emit('chatting', {
+                        "name": name,
+                        message: text
+                    });
+                    $("#msg").val("");
+                });
+
+                $("#submit").on('click', function () {
+                    $.ajax({
+                        url: "/authenticate",
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                            name: $("#name").val(),
+                            password: $("#password").val()
+                        },
+                        success: function (data) {
+                            if (data['status'] == "success") {
+                                window.location.replace("/main");
+                            } else {
+                                $("#errorMsg").html(data['msg']);
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            $("#errorMsg").text(jqXHR.statusText);
+                        }
+                    });
+                });
             });
-        });
-    </script>
-</body>
+        </script>
+    </body>
 
 </html>
