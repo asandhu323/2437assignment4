@@ -34,6 +34,7 @@ body {
     padding: 2.5em;
     margin: 0 auto;
     width : 80vw;
+    text-shadow: none;
   }
 
   #send {
