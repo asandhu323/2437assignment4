@@ -16,15 +16,11 @@ body {
   text-align: center;
   margin: 0 auto;
   display: inline-block;
+  width: 80vw;
 }
 
 #name {
   display: block;
-}
-
-#msg {
-  width: 70git vw;
-  height: 10vh;
 }
 
 #chat_content {
@@ -40,7 +36,15 @@ body {
   color: lightskyblue;
   max-height: 250px;
   overflow-y: scroll;
+  width: 80vw;
+  text-shadow: none;
 }
+
+#msg {
+  width: 80vw;
+  height: 10vh;
+}
+
 
 #send {
   display: block;
